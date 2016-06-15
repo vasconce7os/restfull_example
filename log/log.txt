@@ -1,0 +1,66 @@
+2016-06-15T16:18:26-04:00 INFO (6): 
+78aqui  Controller; create() 
+ Tudo que recebomos de parâmetro foi: 
+Array
+(
+    [id] => 
+    [nome] => ProdutoFp1
+    [imgPath] => image_fp1
+)
+
+2016-06-15T17:02:53-04:00 INFO (6): 
+78aqui  Controller; create() 
+ Tudo que recebomos de parâmetro foi: 
+Array
+(
+    [id] => 
+    [nome] => ProdutoFp2
+    [imgPath] => image_fp2.jgp
+)
+
+2016-06-15T17:03:09-04:00 INFO (6): 
+62aqui  Controller; create() 
+ Tudo que recebomos de parâmetro foi: 
+Array
+(
+    [id] => 
+    [nome] => FornecedorFp02
+    [email] => fornecedor@fro2.com
+    [fone] => 5489370786
+    [cpf] => 435784365
+)
+
+2016-06-15T17:03:09-04:00 INFO (6): 
+99 messages erros: 
+ 
+Array
+(
+    [cpf] => Array
+        (
+            [stringLengthTooShort] => O tamanho do valor de entrada é inferior a 11 caracteres
+        )
+
+)
+
+2016-06-15T17:03:31-04:00 INFO (6): 
+62aqui  Controller; create() 
+ Tudo que recebomos de parâmetro foi: 
+Array
+(
+    [id] => 
+    [nome] => FornecedorFp02
+    [email] => fornecedor@fro2.com
+    [fone] => 5489370786
+    [cpf] => 87667887699
+)
+
+2016-06-15T17:06:12-04:00 INFO (6): 
+78aqui  Controller; create() 
+ Tudo que recebomos de parâmetro foi: 
+Array
+(
+    [id] => 
+    [nome] => ProdutoFp2
+    [imgPath] => produto_fp2.jpg
+)
+

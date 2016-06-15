@@ -67,7 +67,7 @@ $( document ).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost/axm/public/api/v1/fornecedor",
+            url: "<?php echo($this-> basePath()); ?>/api/v1/fornecedor",
             data: fields,
             success: function(dataReturned){
 
@@ -106,7 +106,9 @@ $( document ).ready(function() {
                 }
             },
             error: function(){
-            alert("failure");
+            
+                var $div = $("<div>", {class: "alert alert-danger", html: "Houve um erro inesperado!"});
+                $("#feedback").html($div);
             }
         });
         return false;
