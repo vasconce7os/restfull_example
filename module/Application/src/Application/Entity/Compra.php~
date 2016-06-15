@@ -1,0 +1,70 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Compra
+ *
+ * @ORM\Table(name="compra", indexes={@ORM\Index(name="fk_compra_produto1_idx", columns={"produto_id"}), @ORM\Index(name="fk_compra_fornecedor1_idx", columns={"fornecedor_id"})})
+ * @ORM\Entity
+ */
+class Compra
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quantidade", type="integer", nullable=false)
+     */
+    private $quantidade;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="value_product", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $valueProduct;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="data_criacao", type="date", nullable=false)
+     */
+    private $dataCriacao;
+
+    /**
+     * @var \Application\Entity\Fornecedor
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Fornecedor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fornecedor_id", referencedColumnName="id")
+     * })
+     */
+    private $fornecedor;
+
+    /**
+     * @var \Application\Entity\Produto
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Produto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="produto_id", referencedColumnName="id")
+     * })
+     */
+    private $produto;
+
+
+}

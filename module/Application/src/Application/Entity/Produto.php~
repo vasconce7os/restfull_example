@@ -1,0 +1,39 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Produto
+ *
+ * @ORM\Table(name="produto", uniqueConstraints={@ORM\UniqueConstraint(name="name_UNIQUE", columns={"nome"})})
+ * @ORM\Entity
+ */
+class Produto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome", type="string", length=100, nullable=false)
+     */
+    private $nome;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="img_path", type="string", length=100, nullable=false)
+     */
+    private $imgPath;
+
+
+}

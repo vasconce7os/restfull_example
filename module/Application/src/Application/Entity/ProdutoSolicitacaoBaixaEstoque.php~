@@ -1,0 +1,56 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProdutoSolicitacaoBaixaEstoque
+ *
+ * @ORM\Table(name="produto_solicitacao_baixa_estoque", indexes={@ORM\Index(name="fk_produto_solicitacao_baixa_produto1_idx", columns={"produto_id"}), @ORM\Index(name="fk_produto_solicitacao_baixa_estoque_usuario1_idx", columns={"usuario_id"})})
+ * @ORM\Entity
+ */
+class ProdutoSolicitacaoBaixaEstoque
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="di", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $di;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quantidade", type="integer", nullable=false)
+     */
+    private $quantidade;
+
+    /**
+     * @var \Application\Entity\Usuario
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \Application\Entity\Produto
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Produto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="produto_id", referencedColumnName="id")
+     * })
+     */
+    private $produto;
+
+
+}

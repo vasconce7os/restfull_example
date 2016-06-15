@@ -1,0 +1,56 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProdutoEstoque
+ *
+ * @ORM\Table(name="produto_estoque", indexes={@ORM\Index(name="fk_produto_estoque_produto1_idx", columns={"produto_id"})})
+ * @ORM\Entity
+ */
+class ProdutoEstoque
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="data_criacao", type="datetime", nullable=false)
+     */
+    private $dataCriacao;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quantidade", type="integer", nullable=false)
+     */
+    private $quantidade;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quantidade_baixa", type="integer", nullable=true)
+     */
+    private $quantidadeBaixa;
+
+    /**
+     * @var \Application\Entity\Produto
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Produto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="produto_id", referencedColumnName="id")
+     * })
+     */
+    private $produto;
+
+
+}
