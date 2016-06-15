@@ -1,0 +1,118 @@
+<?php
+$this->headTitle("Fornecedor");
+?>
+
+<div id="feedback"></div>
+
+<h1>
+        Inserir Fornecedor
+</h1>
+<form id="form">
+    <div class="form-group">
+        <label for="nome">
+            Nome
+        </label>
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"/>
+    </div>
+
+    <div class="form-group">
+        <label for="fone">
+            Fone
+        </label>
+        <input type="text" class="form-control" id="fone"  name="fone" placeholder="Fone"/>
+    </div>
+
+    <div class="form-group">
+        <label for="email">
+            E-mail
+        </label>
+        <input type="email" class="form-control" id="email"  name="email" placeholder="E-mail"/>
+    </div>
+
+
+    <div class="form-group">
+        <label for="cpf">
+            CPF
+        </label>
+        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF"/>
+    </div>
+
+    <!--
+    <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" id="exampleInputFile">
+    <p class="help-block">Example block-level help text here.</p>
+    </div>
+    -->
+
+
+    <button name="submit"  id="submit" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+$( document ).ready(function() {
+    console.log( "ready!" );
+    var labelsFields = {fone: "Telefone", id: "id", email: "E-mail", nome: "Nome", cpf: "CPF"};
+
+
+    $( "#form" ).submit(function( event ) {
+    //$("#submit").click(function(){
+        console.log( "acionou!" );
+        var $div = $("<div>", {class: "alert alert-info", html: "Aguarde..."});
+        $("#feedback").html($div);
+        $('html, body').animate({scrollTop : 0},800);
+        var fields = {'id': "", 'nome': jQuery('#nome').val(), 'email': jQuery('#email').val(), 'fone': jQuery('#fone').val(), 'cpf': jQuery('#cpf').val()}
+        //console.log(fields);
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/axm/public/api/v1/fornecedor",
+            data: fields,
+            success: function(dataReturned){
+
+                //console.log(dataReturned);
+                console.log("foi");
+                if(!dataReturned['ok'])
+                {
+                    console.log(dataReturned['errorMessage']);
+                    var errorMessageHumanized = "";
+                    $.each(dataReturned['errorMessage'], function( fieldError, arrayError ) {
+                        //console.log("fieldError - ", fieldError , ": " , " arrayError -", arrayError );
+                        //console.log(arrayError );
+                        $.each(arrayError, function( indexMsg, errorString ) {
+                            console.log("dois den ");
+                            console.log(fieldError);
+                            if(fieldError != 0)
+                            {
+                                errorMessageHumanized = errorMessageHumanized + '<br /><strong>' + labelsFields[fieldError] +'</strong> ' + errorString;
+                            } else
+                            {
+                                errorMessageHumanized = errorMessageHumanized + '<br /> ' + errorString;
+                            }
+                        });
+                    });
+
+                    var $div = $("<div>", {
+                        //id: "alert alert-danger",
+                        class: "alert alert-danger", html: errorMessageHumanized});
+                    //$div.click(function(){ /* ... */ });
+                    $("#feedback").html($div);
+                } else
+                {
+                    console.log("OK");
+                    alert("Fornecedor cadastrado");
+                    window.location.href = "<?php echo $this-> basePath("fornecedor"); ?>";
+                }
+            },
+            error: function(){
+            alert("failure");
+            }
+        });
+        return false;
+    });
+});
+
+
+//]]>
+</script>

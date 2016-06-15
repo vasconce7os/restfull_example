@@ -1,0 +1,93 @@
+<?php
+$this->headTitle("Cadastro de produto");
+?>
+<div id="feedback"></div>
+
+<h1>
+        Inserir Produto
+</h1>
+<form id="form">
+    <div class="form-group">
+        <label for="nome">
+            Nome
+        </label>
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"/>
+    </div>
+
+    <div class="form-group">
+        <label for="imgPath">
+            Imagem
+        </label>
+        <input type="text" class="form-control" id="imgPath"  name="imgPath" placeholder="Caminho da imagem"/>
+    </div>
+    <button name="submit"  id="submit" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+$( document ).ready(function() {
+    console.log( "ready!" );
+    var labelsFields = {imgPath: "TeleimgPath", id: "id", nome: "Nome"};
+
+    //$( "#form" ).submit(function( event ) {
+    $( "#form" ).submit(function( event ) {
+    //$("#submit").click(function(){
+        console.log( "acionou!" );
+        var $div = $("<div>", {class: "alert alert-info", html: "Aguarde..."});
+        $("#feedback").html($div);
+        $('html, body').animate({scrollTop : 0},800);
+        var fields = {'id': "", 'nome': jQuery('#nome').val(), 'imgPath': jQuery('#imgPath').val()}
+        console.log("Campos");
+        console.log(fields);
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo($this-> basePath()); ?>/api/v1/produto",
+            data: fields,
+            success: function(dataReturned){
+
+                //console.log(dataReturned);
+                console.log("foi");
+                if(!dataReturned['ok'])
+                {
+                    console.log(dataReturned['errorMessage']);
+                    var errorMessageHumanized = "";
+                    $.each(dataReturned['errorMessage'], function( fieldError, arrayError ) {
+                        //console.log("fieldError - ", fieldError , ": " , " arrayError -", arrayError );
+                        //console.log(arrayError );
+                        $.each(arrayError, function( indexMsg, errorString ) {
+                            console.log("dois den ");
+                            console.log(fieldError);
+                            if(fieldError != 0)
+                            {
+                                errorMessageHumanized = errorMessageHumanized + '<br /><strong>' + labelsFields[fieldError] +'</strong> ' + errorString;
+                            } else
+                            {
+                                errorMessageHumanized = errorMessageHumanized + '<br /> ' + errorString;
+                            }
+                        });
+                    });
+
+                    var $div = $("<div>", {
+                        //id: "alert alert-danger",
+                        class: "alert alert-danger", html: errorMessageHumanized});
+                    //$div.click(function(){ /* ... */ });
+                    $("#feedback").html($div);
+                } else
+                {
+                    console.log("OK");
+                    alert("Produto cadastrado");
+                    window.location.href = "<?php echo $this-> basePath("produto"); ?>";
+                }
+            },
+            error: function(){
+                $("#feedback").html($("<div>", {class: "alert alert-warning", html: "Houve um erro na conexão!"}));
+            }
+        });
+        return false;
+    });
+});
+
+
+//]]>
+</script>

@@ -1,0 +1,263 @@
+<?php
+$this->headTitle("Comprar produto");
+?>
+<div id="feedback"></div>
+
+    <style>
+      .eac-square input, .eac-round input {
+        background-image: url("images/icon_search.png");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+      }
+
+
+      @font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTRsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/uYKcPVoh6c5R0NpdEY5A-Q.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(http://fonts.gstatic.com/s/opensans/v13/PRmiXeptR36kaC0GEAetxv25ds880Du_gFZbUlZlsbg.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'), url(http://fonts.gstatic.com/s/opensans/v13/O4NhV7_qs9r9seTo7fnsVD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url(http://fonts.gstatic.com/s/opensans/v13/PRmiXeptR36kaC0GEAetxpXMLUeV6_io0G3F6eXSVcg.woff) format('woff');
+}
+
+    </style>
+
+
+    <link href="<?php echo($this-> basePath()); ?>/css/easy-autocomplete.themes.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<?php echo($this-> basePath()); ?>/css/easy-autocomplete.min.css" media="screen" rel="stylesheet" type="text/css">
+
+
+<h1>
+    Inserir Produto
+</h1>
+<form id="form">
+    <div class="form-group">
+        <label for="nome">
+            Produto
+        </label>
+        <input type="hidden " id="produtoId" name="produtoId" />
+        <input type="text" class="form-control"  id="searchProduct" name="searchProduct" placeholder="Informe o produto"/>
+    </div>
+
+    <div class="form-group">
+        <label for="fornecedor">
+            Fornecedor
+        </label>
+        <input type="hidden" id="fornecedorId" name="fornecedorId" value="" />
+        <input type="text" class="form-control" id="searchFornecedor"  name="fornecedor" placeholder="Informe o fornecedor"/>
+    </div>
+
+    <div class="form-group">
+        <label for="fornecedor">
+            Quantidade
+        </label>
+        <input type="number" class="form-control" id="quantidade"  name="quantidade" placeholder="Quantidade de itens"  min="1" max="50"/>
+    </div>
+
+
+    <div class="form-group">
+        <label for="fornecedor">
+            Valor unitário
+        </label>
+        <input type="number" class="form-control" id="valueProduct"  name="valueProduct" placeholder="Valor" min="0" step="any"/>
+    </div>
+
+    <button name="submit"  id="submit" type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+</form>
+
+
+<script src="<?php echo($this-> basePath()); ?>/js/autocomplete/jquery.easy-autocomplete.min.js"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+$( document ).ready(function() {
+    console.log( "ready!" );
+    //fornecedor
+    var options = {
+      url: function(key_search) {
+        return "<?php echo($this-> basePath()); ?>/api/v1/produto" ;
+      },
+      getValue: function(element) {
+          //console.log("\n\ngetValue\n Tudo o que veio");
+          //console.log(element);
+        return element.nome;
+      },
+      ajaxSettings: {
+        dataType: "json",
+        method: "GET",
+        data: {
+          dataType: "json"
+        }
+      },
+
+      preparePostData: function(data) {
+        data.key_search = $("#searchProduct").val();
+        return data;
+      },
+
+      requestDelay: 400,
+
+      list:{
+      		onClickEvent: function() {
+      		},
+            onSelectItemEvent: function() {
+                var selectedItemValue = $("#searchProduct").getSelectedItemData();
+            },
+            onHideListEvent: function() {
+            },
+
+            onChooseEvent: function()
+            {
+                //console.log("onChooseEvent");
+                var selectedItemValue = $("#searchProduct").getSelectedItemData();
+                $("#produtoId").val(selectedItemValue.id);
+            }
+        }
+    };
+    $("#searchProduct").easyAutocomplete(options);
+
+
+    //fornecedor
+    var options = {
+      url: function(key_search) {
+        return "<?php echo($this-> basePath()); ?>/api/v1/fornecedor" ;
+      },
+      getValue: function(element) {
+          //console.log("\n\ngetValue\n Tudo o que veio");
+          //console.log(element);
+        return element.nome;
+      },
+      ajaxSettings: {
+        dataType: "json",
+        method: "GET",
+        data: {
+          dataType: "json"
+        }
+      },
+
+      preparePostData: function(data) {
+        data.key_search = $("#searchFornecedor").val();
+        return data;
+      },
+
+      requestDelay: 400,
+
+      list:{
+      		onClickEvent: function() {
+                //console.log("onClickEvent");
+      		},
+
+            onSelectItemEvent: function() {
+                var selectedItemValue = $("#searchFornecedor").getSelectedItemData();
+                //console.log("onSelectItemEvent");
+                //console.log(selectedItemValue);
+                //$("#fornecedorId").val(selectedItemValue.id);
+            },
+            onHideListEvent: function() {
+        	},
+            onChooseEvent: function()
+            {
+                //console.log("onChooseEvent");
+                var selectedItemValue = $("#searchFornecedor").getSelectedItemData();
+                $("#fornecedorId").val(selectedItemValue.id);
+            }
+        }
+    };
+    $("#searchFornecedor").easyAutocomplete(options);
+
+    //submit form
+    var labelsFields = {id: "id", valueProduct: "Valor do produto", quantidade: "Quantidade", produto: "Produto", fornecedor: "Fornecedor"};
+    $( "#form" ).submit(function( event ) {
+        console.log("event submit");
+        var $div = $("<div>", {class: "alert alert-info", html: "Aguarde..."});
+        $("#feedback").html($div);
+        $('html, body').animate({scrollTop : 0},800);
+        var fields = {'id': "", 'quantidade': $('#quantidade').val(), 'valueProduct': $('#valueProduct').val(), 'produto': {'id':$('#produtoId').val()}, 'fornecedor': {'id': $("#fornecedorId").val()}}
+        console.log("Campos");
+        console.log(fields);
+
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo($this-> basePath()); ?>/api/v1/compra",
+            data: fields,
+            success: function(dataReturned){
+
+                console.log("foi");
+                console.log(dataReturned);
+                if(!dataReturned['ok'])
+                {
+                    console.log(dataReturned['errorMessage']);
+                    var errorMessageHumanized = "";
+                    $.each(dataReturned['errorMessage'], function( fieldError, arrayError ) {
+                        //console.log("fieldError - ", fieldError , ": " , " arrayError -", arrayError );
+                        //console.log(arrayError );
+                        $.each(arrayError, function( indexMsg, errorString ) {
+                            console.log("dois den ");
+                            console.log(fieldError);
+                            if(fieldError != 0)
+                            {
+                                errorMessageHumanized = errorMessageHumanized + '<br /><strong>' + labelsFields[fieldError] +'</strong> ' + errorString;
+                            } else
+                            {
+                                errorMessageHumanized = errorMessageHumanized + '<br /> ' + errorString;
+                            }
+                        });
+                    });
+
+                    var $div = $("<div>", {
+                        //id: "alert alert-danger",
+                        class: "alert alert-danger", html: errorMessageHumanized});
+                    //$div.click(function(){ /* ... */ });
+                    $("#feedback").html($div);
+                } else
+                {
+                    console.log("OK");
+                    alert("Compra realizada");
+
+                    var $div = $("<div>", {
+                        class: "alert alert-danger", html: ""});
+                    $("#feedback").html($div);
+                    window.location.href = "<?php echo $this-> basePath("produto"); ?>/" + $('#produtoId').val();
+                }
+            },
+            error: function(){
+                $("#feedback").html($("<div>", {class: "alert alert-warning", html: "Houve um erro na conexão!"}));
+            }
+        });
+
+        return false;
+    });
+});
+
+
+//]]>
+</script>
